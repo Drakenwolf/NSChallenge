@@ -1,4 +1,4 @@
-import { UserRepository } from "../repo"
+import { UserRepository } from "../repo/User"
 
 export class UserController {
     users() {
