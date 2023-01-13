@@ -1,13 +1,15 @@
 import { DataSource } from "typeorm"
-
+import {dbConfig} from "../config/db"
 export const AppDataSource = new DataSource({
     type: "mysql",
-    host: "localhost",
-    port: 3306,
-    username: "test",
-    password: "test",
+    host: dbConfig.HOST,
+    port: parseInt(dbConfig.port),
+    username: dbConfig.USER,
+    password: dbConfig.PASSWORD,
     database: "test",
 })
+
+
 
 AppDataSource.initialize()
     .then(() => {
