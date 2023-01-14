@@ -1,7 +1,11 @@
 import { UserRepository } from "../repo/User"
 
 export class UserController {
-    users() {
-        return UserRepository.find()
+    find() {
+        try {
+            return UserRepository.find()
+        } catch (error) {
+            return error
+        }
     }
 }

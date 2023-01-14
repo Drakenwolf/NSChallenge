@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 export const dbConfig = {
     HOST: process.env.DB_HOST,
     USER: process.env.DB_USER,
@@ -7,7 +9,7 @@ export const dbConfig = {
     dialect: "mysql",
     pool: {
       max: 5,
-      min: 0,
+      min: 1,
       acquire: 30000,
       idle: 10000
     }

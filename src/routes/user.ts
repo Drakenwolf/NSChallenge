@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/", async (req: Request, res: Response) => {
   const users = await UserRepository.find()
-  console.log("test")
+  console.log("users : \n", users)
   res.send({
     users: users ?? null,
   })

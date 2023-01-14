@@ -6,7 +6,7 @@ export const AppDataSource = new DataSource({
     port: parseInt(dbConfig.port),
     username: dbConfig.USER,
     password: dbConfig.PASSWORD,
-    database: "test",
+    database: dbConfig.DB,
 })
 
 
