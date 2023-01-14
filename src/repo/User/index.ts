@@ -2,4 +2,4 @@ import { User } from "./User";
 import {AppDataSource} from "../../db/dataSource"
 
 
-export const UserRepository = AppDataSource.getRepository(User)
+export const userRepository = AppDataSource.getRepository(User)

@@ -1,5 +1,8 @@
 import { DataSource } from "typeorm"
 import {dbConfig} from "../config/db"
+import { Task } from "../repo/Task/Task"
+import { User } from "../repo/User/User"
+
 export const AppDataSource = new DataSource({
     type: "mysql",
     host: dbConfig.HOST,
@@ -7,6 +10,9 @@ export const AppDataSource = new DataSource({
     username: dbConfig.USER,
     password: dbConfig.PASSWORD,
     database: dbConfig.DB,
+    synchronize: true,
+    logging: true,
+    entities: [User,Task],
 })
 
 
