@@ -1,5 +1,6 @@
 
 import express, { Request, Response } from "express";
+import { auth } from "../middlewares/auth";
 import { TaskModel } from "../model/Task";
 import { UserModel } from "../model/User";
 import { Task } from "../repo/Task/Task";
@@ -8,11 +9,11 @@ const router = express.Router();
 const taskModel = new TaskModel() 
 const userModel = new UserModel() 
 
-router.get("/:username", async (req: Request, res: Response) => {
-    const {username} = req.params
-  const response = await userModel.findOneByName(username)
+router.get("/", async (req: Request, res: Response) => {
+
+  const response = await taskModel.find()
   res.send({
-    response : response.tasks ?? null,
+    response : response ?? null,
   })
 });
 
@@ -25,7 +26,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 
-router.post("/:username", async (req: Request, res: Response) => {
+router.post("/:username",auth, async (req: Request, res: Response) => {
     const {username} = req.params
     const user = await userModel.findOneByName(username)
 
@@ -44,7 +45,7 @@ router.post("/:username", async (req: Request, res: Response) => {
     })
 });
 
-router.put("/:id", async (req: Request, res: Response) => {
+router.put("/:id",auth, async (req: Request, res: Response) => {
   const {id} = req.params
   
   const response = await taskModel.update(parseInt(id), req.body)
@@ -54,7 +55,7 @@ router.put("/:id", async (req: Request, res: Response) => {
   })
 });
 
-router.delete("/:id", async (req: Request, res: Response) => {
+router.delete("/:id",auth, async (req: Request, res: Response) => {
   const {id} = req.params
   
   const response = await taskModel.delete(parseInt(id))

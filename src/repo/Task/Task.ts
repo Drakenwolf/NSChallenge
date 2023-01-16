@@ -18,7 +18,6 @@ export class Task {
     description: string
     @Column()
     status: Status
-
     @ManyToOne(() => User, (user) => user.tasks)
     user: User
 }

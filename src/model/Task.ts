@@ -3,7 +3,12 @@ import { Task } from "../repo/Task/Task"
 export class TaskModel {
     async find() {
         try {
-            return await taskRepository.find()
+            console.log(await taskRepository.find({relations: {
+                user: true,
+            }}))
+            return await taskRepository.find({relations: {
+                user: true,
+            }})
         } catch (error) {
             return error
         }

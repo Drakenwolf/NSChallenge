@@ -9,12 +9,12 @@ export class User {
     @Column({
         length: 100
     })  username: string;
-    @Column({ unique: true }) email: string
+    @Column({ unique: true,  nullable: false }) email: string
     @Column({ nullable: false })
     password: string
-    
+    @Column('simple-array', { nullable: true })
+    tokens: string[];
     @OneToMany(() => Task, (task) => task.user)
     tasks: Task[]
 
 }
- 
