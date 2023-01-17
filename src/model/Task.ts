@@ -3,9 +3,7 @@ import { Task } from "../repo/Task/Task"
 export class TaskModel {
     async find() {
         try {
-            console.log(await taskRepository.find({relations: {
-                user: true,
-            }}))
+
             return await taskRepository.find({relations: {
                 user: true,
             }})
@@ -14,7 +12,7 @@ export class TaskModel {
         }
     }
 
-    async findOneByName(id: number) {
+    async findOneById(id: number) {
         try {
             return  await taskRepository.findOneBy({
                 id: id,
@@ -31,7 +29,7 @@ export class TaskModel {
             return error
         }
     }
-    async update(id: number, fields : Task) {
+    async update(id: number, fields : Partial<Task>) {
         
         try {
             return  await taskRepository.update({id: id}, {...fields})

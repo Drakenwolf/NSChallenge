@@ -1,17 +1,14 @@
 
 import express, { Request, Response } from "express";
 import { isAuth } from "../middlewares/auth";
-import { TaskModel } from "../model/Task";
-import { UserModel } from "../model/User";
+import { UserService } from "../service/UserService";
 import { Task } from "../repo/Task/Task";
 const router = express.Router();
 
-const taskModel = new TaskModel() 
-const userModel = new UserModel() 
-
+const userService = new UserService()
 router.get("/", async (req: Request, res: Response) => {
 
-  const response = await taskModel.find()
+  const response = await userService.readTask()
   res.send({
     response : response ?? null,
   })
@@ -19,7 +16,7 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get("/:id", async (req: Request, res: Response) => {
   const {id} = req.params
-  const response = await taskModel.findOneByName(parseInt(id))
+  const response = await userService.readTask(parseInt(id))
   res.send({
     response : response ?? null,
   })
@@ -28,16 +25,15 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 router.post("/:username",isAuth, async (req: Request, res: Response) => {
     const {username} = req.params
-    const user = await userModel.findOneByName(username)
 
     const {title, status, description} = req.body;
     const taskPayload = new Task()
     taskPayload.title = title;
     taskPayload.status = status;
     taskPayload.description = description;
-    taskPayload.user = user.id;
 
-    const response = await taskModel.create(taskPayload)
+
+    const response = await userService.createTask(username, taskPayload)
 
 
     res.send({
@@ -48,7 +44,7 @@ router.post("/:username",isAuth, async (req: Request, res: Response) => {
 router.put("/:id",isAuth, async (req: Request, res: Response) => {
   const {id} = req.params
   
-  const response = await taskModel.update(parseInt(id), req.body)
+  const response = await userService.updateTask(parseInt(id), req.body)
 
   res.send({
     response : response ?? null,
@@ -58,7 +54,7 @@ router.put("/:id",isAuth, async (req: Request, res: Response) => {
 router.delete("/:id",isAuth, async (req: Request, res: Response) => {
   const {id} = req.params
   
-  const response = await taskModel.delete(parseInt(id))
+  const response = await userService.deleteTask(parseInt(id))
 
   res.send({
     response : response ?? null,

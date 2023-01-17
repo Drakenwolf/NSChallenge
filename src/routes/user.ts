@@ -1,25 +1,22 @@
 
 import express, { Request, Response, NextFunction } from "express";
 import { isAuth } from "../middlewares/auth";
-import { UserModel } from "../model/User";
 import { User } from "../repo/User/User";
-import { login } from "../service/loginService";
-import { logout } from "../service/logOutService";
-
+import { UserService } from "../service/UserService";
 const router = express.Router();
 
-const userModel = new UserModel() 
+const userService = new UserService() 
 
-router.get("/login", async (req: Request, res: Response) => {
-  const response = await login(req.body)
+router.get("/login",  (req: Request, res: Response) => {
+  const response =  userService.login(req.body)
   res.send({
     response : response ?? null,
   })
 });
 
-router.get("/logout/:username",isAuth, async (req: Request, res: Response) => {
+router.get("/logout/:username",isAuth,  (req: Request, res: Response) => {
 
-  const response = await logout(req, res)
+  const response =  userService.logout(req.body.username, res.locals.token)
   res.send({
     response
   })
@@ -27,7 +24,7 @@ router.get("/logout/:username",isAuth, async (req: Request, res: Response) => {
 
 
 router.get("/", async (req: Request, res: Response) => {
-  const response = await userModel.find()
+  const response = await userService.read()
   res.send({
     response : response ?? null,
   })
@@ -35,7 +32,7 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get("/:username", async (req: Request, res: Response) => {
   const {username} = req.params
-  const response = await userModel.findOneByName(username)
+  const response = await userService.read(username)
   res.send({
     response : response ?? null,
   })
@@ -49,7 +46,7 @@ router.post("/", async (req: Request, res: Response) => {
     userPayload.username = username;
     userPayload.email = email;
 
-    const response = await userModel.create(userPayload)
+    const response = await userService.create(userPayload)
 
 
     res.send({
@@ -60,7 +57,7 @@ router.post("/", async (req: Request, res: Response) => {
 router.put("/:id",isAuth, async (req: Request, res: Response) => {
   const {id} = req.params
   
-  const response = await userModel.update(parseInt(id), req.body)
+  const response = await userService.update(parseInt(id), req.body)
 
   res.send({
     response : response ?? null,
@@ -70,7 +67,7 @@ router.put("/:id",isAuth, async (req: Request, res: Response) => {
 router.delete("/:id", isAuth, async (req: Request, res: Response) => {
   const {id} = req.params
   
-  const response = await userModel.delete(parseInt(id))
+  const response = await userService.delete(parseInt(id))
 
   res.send({
     response : response ?? null,
