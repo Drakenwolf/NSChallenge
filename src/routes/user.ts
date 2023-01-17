@@ -9,6 +9,7 @@ const userService = new UserService()
 
 router.get("/login",  (req: Request, res: Response) => {
 
+
   /**
    * @openapi
    * /user/login:
@@ -18,9 +19,10 @@ router.get("/login",  (req: Request, res: Response) => {
    *    description: Allows to login user with username and password
    *    requestBody:
    *        required: true
-   *        contents:
+   *        content:
    *           application/json: 
-   *              schema
+   *              schema:
+   *                 $ref: '#/components/schemas/User'
    */
 
   const response =  userService.login(req.body)
@@ -33,13 +35,25 @@ router.get("/logout/:username",isAuth,  (req: Request, res: Response) => {
 
   /**
  * @openapi
- * /:
+ * /user/logout/:{username}:
  *   get:
- *     description: Welcome to swagger-jsdoc!
+ *     tags:
+ *        - Logout
+ *     security:
+ *        - bearerAuth: []
+ *     parameters:
+ *       - name: userId
+ *         in: path
+ *         required: true
+ *         description: The ID of the user to return.
+ *         schema:
+ *           type: integer
+ *           format: int64
+ *           minimum: 1 
  *     responses:
  *       200:
- *         description: Returns a mysterious string.
- */
+ *         description: Returns a confirmation message.
+ */         
 
   const response =  userService.logout(req.body.username, res.locals.token)
   res.send({
@@ -49,6 +63,18 @@ router.get("/logout/:username",isAuth,  (req: Request, res: Response) => {
 
 
 router.get("/", async (req: Request, res: Response) => {
+    /**
+ * @openapi
+ * /user/logout/:{username}:
+ *   get:
+ *     tags:
+ *        - Get all users
+ *     responses:
+ *       200:
+ *         description: Returns all users.
+ */         
+
+
   const response = await userService.read()
   res.send({
     response : response ?? null,
@@ -56,6 +82,21 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.get("/:username", async (req: Request, res: Response) => {
+
+    /**
+ * @openapi
+ * /user/logout/:{username}:
+ *   get:
+ *     tags:
+ *        - Get a user by username
+ *     parameters:
+ *       - name: username
+ *         in: path
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: Returns a confirmation message.
+ */ 
   const {username} = req.params
   const response = await userService.read(username)
   res.send({
@@ -65,6 +106,22 @@ router.get("/:username", async (req: Request, res: Response) => {
 
 
 router.post("/", async (req: Request, res: Response) => {
+
+  /**
+ * @openapi
+ * /user:
+ *   post:
+ *     tags:
+ *        - Create a user
+ *     application/json: 
+ *        schema:
+ *         $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Returns a confirmation message.
+ */ 
+
+
     const {password, username, email} = req.body;
     const userPayload = new User()
     userPayload.password = password;
@@ -80,6 +137,28 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 router.put("/:id",isAuth, async (req: Request, res: Response) => {
+
+
+  /**
+ * @openapi
+ * /user:
+ *   put:
+ *     tags:
+ *        - Update a user
+ *     security:
+ *        - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *     application/json: 
+ *        schema:
+ *         $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Returns a confirmation message.
+ */ 
+
   const {id} = req.params
   
   const response = await userService.update(parseInt(id), req.body)
@@ -90,6 +169,27 @@ router.put("/:id",isAuth, async (req: Request, res: Response) => {
 });
 
 router.delete("/:id", isAuth, async (req: Request, res: Response) => {
+
+
+  /**
+ * @openapi
+ * /user:
+ *   delete:
+ *     tags:
+ *        - Delete a user
+ *     security:
+ *        - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *     application/json: 
+ *        schema:
+ *         $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Returns a confirmation message.
+ */ 
   const {id} = req.params
   
   const response = await userService.delete(parseInt(id))
@@ -99,5 +199,31 @@ router.delete("/:id", isAuth, async (req: Request, res: Response) => {
   })
 });
 
+  /**
+   * @openapi
+   * components:
+   *  schemas:
+   *    User:
+   *      properties:
+   *        id:
+   *          type: integer
+   *        username:
+   *          type: string
+   *        email:
+   *          type: string
+   *        password:
+   *          type: string
+   *        tokens:
+   *          type: string[]
+   *  securitySchemes:
+   *    bearerAuth:          
+   *    type: http
+   *    scheme: bearer
+   *    bearerFormat: JWT   
+   *  security:
+   *    - bearerAuth: []   
+   */
 
 module.exports = router;
+
+
