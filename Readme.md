@@ -1,4 +1,5 @@
 # How to start project  
+ 1) run git clone git@github.com:Drakenwolf/NSChallenge.git
  1) create a .env file using the variable from .example.env
  2) run yarn
  3) run yarn build

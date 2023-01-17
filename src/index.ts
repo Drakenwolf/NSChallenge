@@ -1,5 +1,6 @@
 import express from 'express';
 import { dbConfig } from './config/db'; 
+import swaggerDocs from './utils/swagger';
 const router = require("./routes/index");
 
 
@@ -16,5 +17,6 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log('%cindex.ts line:18 dbConfig', 'color: white; background-color: #007acc;', dbConfig);
+  swaggerDocs(app, parseInt(port))
   return console.log(`Express is listening at http://localhost:${port}`);
 });

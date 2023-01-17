@@ -96,7 +96,14 @@ export class UserService {
     }
 
     async delete(id: number){
-      return await taskModel.findOneById(id)
+      return await userModel.delete(id)
+    }
+
+    async createTask(username:string, task: Task){
+      
+      const user = await userModel.findOneByName(username)
+      task.user =  user.id;
+      return await taskModel.create(task)
     }
 
     async readTask(id?:number){
@@ -107,12 +114,7 @@ export class UserService {
       }
     }
 
-    async createTask(username:string, task: Task){
-
-      const user = await userModel.findOneByName(username)
-      task.id =  user.id;
-      return await taskModel.create(task)
-    }
+ 
     async updateTask(id: number, task:Partial<Task>){
       return await taskModel.update(id, task)
     }
@@ -128,7 +130,6 @@ export class UserService {
     const decoded = JSON.parse(decodedJson)
     const exp = decoded.exp;
     const expired = (Date.now() >= exp * 1000)
-    console.log(expired)
     return expired
   }
   }

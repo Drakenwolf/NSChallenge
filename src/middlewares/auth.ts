@@ -13,11 +13,6 @@ export const isAuth = async (req: Request, res: Response, next: NextFunction) =>
    const {username} = req.params
    const user = await userModel.findOneByName(username)
 
-
-  console.log('%cauth.ts line:17 user', 'color: white; background-color: #007acc;', user);
-  console.log('%cauth.ts line:18 user.tokens', 'color: white; background-color: #007acc;', user.tokens);
-   
-    console.log('%cauth.ts line:20 user.tokens.includes(token)', 'color: white; background-color: #007acc;', user.tokens.includes(token));
   if (!token) {
      throw new Error("");
    }

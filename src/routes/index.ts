@@ -9,4 +9,4 @@ const routes = function (server:  Application) {
   server.use("/task", task);
 };
 
-module.exports = routes;
+module.exports = router;
