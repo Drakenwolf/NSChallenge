@@ -1,0 +1,33 @@
+# How to start project  
+ 1) create a .env file using the variable from .example.env
+ 2) run yarn
+ 3) run yarn build
+ 4) run sudo docker-compose up
+
+
+## Architecture overview
+
+We have the following elements on the rest api:
+
+repos: Manage the storage of the entities. 
+
+models: Manage the rest interface. 
+
+services: Manage the business logic implementations and external services, creating instances of the models. 
+
+On top of this the application has a auth middleware.
+
+Here is a simple diagram that illustrates the architecture and design of this rest api: 
+
+https://www.figma.com/file/4UHtm1XbloAMfHDxP4DIFQ/Nica-source-technical-challenge?node-id=1%3A566&t=hJShLxKebca8cJlC-1
+
+
+## Docs
+
+ ### Endpoints: 
+
+ #### User
+
+ #### Task
+
+
