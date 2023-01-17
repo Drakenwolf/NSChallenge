@@ -8,7 +8,7 @@ import { User } from "../repo/User/User";
 export const SECRET_KEY: Secret = 'your-secret-key-here';
 
 const userModel = new UserModel()
-export async function logout(req: Request, res: Response,) {
+export async function logout(req: Request, res: Response) {
     const {username} = req.body
     const {token} = res.locals
 
@@ -20,6 +20,7 @@ export async function logout(req: Request, res: Response,) {
     }
 
     const tokens = foundUser.tokens;
+
     const newTokens:string[]= tokens ?  tokens.filter(t => t !== token) : null
 
     const result = await userModel.update(foundUser.id,  {tokens: newTokens});

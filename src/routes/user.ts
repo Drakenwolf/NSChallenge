@@ -1,6 +1,6 @@
 
-import express, { Request, Response } from "express";
-import { auth } from "../middlewares/auth";
+import express, { Request, Response, NextFunction } from "express";
+import { isAuth } from "../middlewares/auth";
 import { UserModel } from "../model/User";
 import { User } from "../repo/User/User";
 import { login } from "../service/loginService";
@@ -17,7 +17,8 @@ router.get("/login", async (req: Request, res: Response) => {
   })
 });
 
-router.get("/logout",auth, async (req: Request, res: Response) => {
+router.get("/logout/:username",isAuth, async (req: Request, res: Response) => {
+
   const response = await logout(req, res)
   res.send({
     response
@@ -56,7 +57,7 @@ router.post("/", async (req: Request, res: Response) => {
     })
 });
 
-router.put("/:id",auth, async (req: Request, res: Response) => {
+router.put("/:id",isAuth, async (req: Request, res: Response) => {
   const {id} = req.params
   
   const response = await userModel.update(parseInt(id), req.body)
@@ -66,10 +67,10 @@ router.put("/:id",auth, async (req: Request, res: Response) => {
   })
 });
 
-router.delete("/:username", auth, async (req: Request, res: Response) => {
-  const {username} = req.params
+router.delete("/:id", isAuth, async (req: Request, res: Response) => {
+  const {id} = req.params
   
-  const response = await userModel.delete(username)
+  const response = await userModel.delete(parseInt(id))
 
   res.send({
     response : response ?? null,

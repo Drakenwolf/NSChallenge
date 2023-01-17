@@ -43,10 +43,10 @@ export class UserModel {
             return error
         }
     }
-    async delete (username: string) {
+    async delete (id: number) {
         
         try {
-            return  await userRepository.delete({username})
+            return  await userRepository.delete({id})
         } catch (error) {
             return error
         }

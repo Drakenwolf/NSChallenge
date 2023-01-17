@@ -1,6 +1,6 @@
 
 import express, { Request, Response } from "express";
-import { auth } from "../middlewares/auth";
+import { isAuth } from "../middlewares/auth";
 import { TaskModel } from "../model/Task";
 import { UserModel } from "../model/User";
 import { Task } from "../repo/Task/Task";
@@ -26,7 +26,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 
-router.post("/:username",auth, async (req: Request, res: Response) => {
+router.post("/:username",isAuth, async (req: Request, res: Response) => {
     const {username} = req.params
     const user = await userModel.findOneByName(username)
 
@@ -45,7 +45,7 @@ router.post("/:username",auth, async (req: Request, res: Response) => {
     })
 });
 
-router.put("/:id",auth, async (req: Request, res: Response) => {
+router.put("/:id",isAuth, async (req: Request, res: Response) => {
   const {id} = req.params
   
   const response = await taskModel.update(parseInt(id), req.body)
@@ -55,7 +55,7 @@ router.put("/:id",auth, async (req: Request, res: Response) => {
   })
 });
 
-router.delete("/:id",auth, async (req: Request, res: Response) => {
+router.delete("/:id",isAuth, async (req: Request, res: Response) => {
   const {id} = req.params
   
   const response = await taskModel.delete(parseInt(id))
