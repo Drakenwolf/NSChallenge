@@ -5,7 +5,7 @@ const router = require("./routes/index");
 
 
 const app = express();
-const port = process.env.NODE_DOCKER_PORT || 3000;
+const port = parseInt(process.env.NODE_DOCKER_PORT) || 3000;
 
 app.use(express.json());
 router(app);
@@ -17,6 +17,6 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   console.log('%cindex.ts line:18 dbConfig', 'color: white; background-color: #007acc;', dbConfig);
-  swaggerDocs(app, parseInt(port))
+  swaggerDocs(app, port)
   return console.log(`Express is listening at http://localhost:${port}`);
 });

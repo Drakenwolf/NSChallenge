@@ -1,9 +1,7 @@
 # How to start project  
  1) run git clone git@github.com:Drakenwolf/NSChallenge.git
- 1) create a .env file using the variable from .example.env
- 2) run yarn
- 3) run yarn build
- 4) run sudo docker-compose up
+ 2) create a .env file using the variable from .example.env
+ 3) run sudo docker-compose up
 
 
 ## Architecture overview
@@ -25,10 +23,6 @@ https://www.figma.com/file/4UHtm1XbloAMfHDxP4DIFQ/Nica-source-technical-challeng
 
 ## Docs
 
- ### Endpoints: 
-
- #### User
-
- #### Task
+ ### http://localhost:${port}/docs
 
 

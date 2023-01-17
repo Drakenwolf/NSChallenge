@@ -8,6 +8,21 @@ const router = express.Router();
 const userService = new UserService() 
 
 router.get("/login",  (req: Request, res: Response) => {
+
+  /**
+   * @openapi
+   * /user/login:
+   *  get:
+   *    tags:
+   *        - Login
+   *    description: Allows to login user with username and password
+   *    requestBody:
+   *        required: true
+   *        contents:
+   *           application/json: 
+   *              schema
+   */
+
   const response =  userService.login(req.body)
   res.send({
     response : response ?? null,
@@ -15,6 +30,16 @@ router.get("/login",  (req: Request, res: Response) => {
 });
 
 router.get("/logout/:username",isAuth,  (req: Request, res: Response) => {
+
+  /**
+ * @openapi
+ * /:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ */
 
   const response =  userService.logout(req.body.username, res.locals.token)
   res.send({

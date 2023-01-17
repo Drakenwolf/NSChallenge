@@ -1,33 +1,19 @@
 import { Express, Request, Response } from "express";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import { version } from "../../package.json";
-import log from "./logger";
+import pino from "pino";
+import dayjs from "dayjs"
 
-const options: swaggerJsdoc.Options = {
+const options: swaggerJsdoc.Options  = {
   definition: {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     info: {
-      title: "REST API Docs",
-      version,
+      title: 'NSChallenge',
+      version: '1.0.0',
     },
-    components: {
-      securitySchemas: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-        },
-      },
-    },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
   },
-  apis: ["./src/routes.ts", "./src/schema/*.ts"],
-};
+  apis: ['./src/routes/*.ts'], // files containing annotations as above
+};;
 
 const swaggerSpec = swaggerJsdoc(options);
 
@@ -43,5 +29,9 @@ function swaggerDocs(app: Express, port: number) {
 
   log.info(`Docs available at http://localhost:${port}/docs`);
 }
+
+  const log = pino( {
+     colorize: true, ignore: 'hostname,pid' ,  timestamp: () => `,"time":"${dayjs().format()}"`
+  } )
 
 export default swaggerDocs;
