@@ -7,7 +7,7 @@ const router = express.Router();
 
 const userService = new UserService() 
 
-router.get("/login",  (req: Request, res: Response) => {
+router.get("/login", async (req: Request, res: Response) => {
 
 
   /**
@@ -25,7 +25,7 @@ router.get("/login",  (req: Request, res: Response) => {
    *                 $ref: '#/components/schemas/User'
    */
 
-  const response =  userService.login(req.body)
+  const response =  await userService.login(req.body)
   res.send({
     response : response ?? null,
   })
